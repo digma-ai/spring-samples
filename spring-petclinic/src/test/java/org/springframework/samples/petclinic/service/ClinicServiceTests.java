@@ -79,10 +79,27 @@ class ClinicServiceTests {
 	@Autowired
 	protected VetRepository vets;
 
+
 	Pageable pageable;
 
 	@Test
 	void shouldFindOwnersByLastName() {
+		Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
+		assertThat(owners).hasSize(2);
+
+		owners = this.owners.findByLastName("Daviss", pageable);
+		assertThat(owners).isEmpty();
+	}
+	@Test
+	void shouldFindOwnersByLastName2() {
+		Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
+		assertThat(owners).hasSize(2);
+
+		owners = this.owners.findByLastName("Daviss", pageable);
+		assertThat(owners).isEmpty();
+	}
+	@Test
+	void shouldFindOwnersByLastName3() {
 		Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
 		assertThat(owners).hasSize(2);
 
@@ -98,10 +115,63 @@ class ClinicServiceTests {
 		assertThat(owner.getPets().get(0).getType()).isNotNull();
 		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
 	}
+	@Test
+	void shouldFindSingleOwnerWithPet2() {
+		Owner owner = this.owners.findById(1);
+		assertThat(owner.getLastName()).startsWith("Franklin");
+		assertThat(owner.getPets()).hasSize(1);
+		assertThat(owner.getPets().get(0).getType()).isNotNull();
+		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+	}
+	@Test
+	void shouldFindSingleOwnerWithPet3() {
+		Owner owner = this.owners.findById(1);
+		assertThat(owner.getLastName()).startsWith("Franklin");
+		assertThat(owner.getPets()).hasSize(1);
+		assertThat(owner.getPets().get(0).getType()).isNotNull();
+		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+	}
+
 
 	@Test
 	@Transactional
 	void shouldInsertOwner() {
+		Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
+		int found = (int) owners.getTotalElements();
+
+		Owner owner = new Owner();
+		owner.setFirstName("Sam");
+		owner.setLastName("Schultz");
+		owner.setAddress("4, Evans Street");
+		owner.setCity("Wollongong");
+		owner.setTelephone("4444444444");
+		this.owners.save(owner);
+		assertThat(owner.getId().longValue()).isNotEqualTo(0);
+
+		owners = this.owners.findByLastName("Schultz", pageable);
+		assertThat(owners.getTotalElements()).isEqualTo(found + 1);
+	}
+	@Test
+	@Transactional
+	void shouldInsertOwner2() {
+		Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
+		int found = (int) owners.getTotalElements();
+
+		Owner owner = new Owner();
+		owner.setFirstName("Sam");
+		owner.setLastName("Schultz");
+		owner.setAddress("4, Evans Street");
+		owner.setCity("Wollongong");
+		owner.setTelephone("4444444444");
+		this.owners.save(owner);
+		assertThat(owner.getId().longValue()).isNotEqualTo(0);
+
+		owners = this.owners.findByLastName("Schultz", pageable);
+		assertThat(owners.getTotalElements()).isEqualTo(found + 1);
+	}
+	@Test
+	@Transactional
+	void shouldInsertOwner3() {
 		Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
 		int found = (int) owners.getTotalElements();
 
@@ -194,6 +264,61 @@ class ClinicServiceTests {
 	}
 
 	@Test
+	void shouldFindVets2() {
+		Collection<Vet> vets = this.vets.findAll();
+
+		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		assertThat(vet.getLastName()).isEqualTo("Douglas");
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void shouldFindVets3() {
+		Collection<Vet> vets = this.vets.findAll();
+
+		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		assertThat(vet.getLastName()).isEqualTo("Douglas");
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void shouldFindVets4() {
+		Collection<Vet> vets = this.vets.findAll();
+
+		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		assertThat(vet.getLastName()).isEqualTo("Douglas");
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void shouldFindVets5() {
+		Collection<Vet> vets = this.vets.findAll();
+
+		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		assertThat(vet.getLastName()).isEqualTo("Douglas");
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void shouldFindVets6() {
+		Collection<Vet> vets = this.vets.findAll();
+
+		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		assertThat(vet.getLastName()).isEqualTo("Douglas");
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+	}
+
+	@Test
 	@Transactional
 	void shouldAddNewVisitForPet() {
 		Owner owner6 = this.owners.findById(6);
@@ -214,6 +339,54 @@ class ClinicServiceTests {
 
 	@Test
 	void shouldFindVisitsByPetId() throws Exception {
+		Owner owner6 = this.owners.findById(6);
+		Pet pet7 = owner6.getPet(7);
+		Collection<Visit> visits = pet7.getVisits();
+
+		assertThat(visits) //
+			.hasSize(2) //
+			.element(0)
+			.extracting(Visit::getDate)
+			.isNotNull();
+	}
+	@Test
+	void shouldFindVisitsByPetId2() throws Exception {
+		Owner owner6 = this.owners.findById(6);
+		Pet pet7 = owner6.getPet(7);
+		Collection<Visit> visits = pet7.getVisits();
+
+		assertThat(visits) //
+			.hasSize(2) //
+			.element(0)
+			.extracting(Visit::getDate)
+			.isNotNull();
+	}
+	@Test
+	void shouldFindVisitsByPetId3() throws Exception {
+		Owner owner6 = this.owners.findById(6);
+		Pet pet7 = owner6.getPet(7);
+		Collection<Visit> visits = pet7.getVisits();
+
+		assertThat(visits) //
+			.hasSize(2) //
+			.element(0)
+			.extracting(Visit::getDate)
+			.isNotNull();
+	}
+	@Test
+	void shouldFindVisitsByPetId4() throws Exception {
+		Owner owner6 = this.owners.findById(6);
+		Pet pet7 = owner6.getPet(7);
+		Collection<Visit> visits = pet7.getVisits();
+
+		assertThat(visits) //
+			.hasSize(2) //
+			.element(0)
+			.extracting(Visit::getDate)
+			.isNotNull();
+	}
+	@Test
+	void shouldFindVisitsByPetId5() throws Exception {
 		Owner owner6 = this.owners.findById(6);
 		Pet pet7 = owner6.getPet(7);
 		Collection<Visit> visits = pet7.getVisits();
